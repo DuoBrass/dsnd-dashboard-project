@@ -1,24 +1,25 @@
 # Import the QueryBase class
-#### YOUR CODE HERE
+from sql_execution import QueryBase
 
 # Import dependencies needed for sql execution
 # from the `sql_execution` module
-#### YOUR CODE HERE
+from sql_execution import QueryBase
 
 # Define a subclass of QueryBase
 # called Employee
-#### YOUR CODE HERE
-
+import pandas as pd  # To return SQL query results as a DataFrame
+from sql_execution import execute_query  
     # Set the class attribute `name`
     # to the string "employee"
-    #### YOUR CODE HERE
+    class Employee(QueryBase):
+    name = "employee"  # Table name for the employee class
 
 
     # Define a method called `names`
     # that receives no arguments
     # This method should return a list of tuples
     # from an sql execution
-    #### YOUR CODE HERE
+    def names(self):
         
         # Query 3
         # Write an SQL query
@@ -27,14 +28,18 @@
         # 2. The employee's id
         # This query should return the data
         # for all employees in the database
-        #### YOUR CODE HERE
+        query = f"""
+            SELECT full_name, employee_id
+            FROM {self.name}
+        """
+        return execute_query(query)  # Executes the query and returns a list of tuples
     
 
     # Define a method called `username`
     # that receives an `id` argument
     # This method should return a list of tuples
     # from an sql execution
-    #### YOUR CODE HERE
+    def username(self, id):
         
         # Query 4
         # Write an SQL query
@@ -42,7 +47,12 @@
         # Use f-string formatting and a WHERE filter
         # to only return the full name of the employee
         # with an id equal to the id argument
-        #### YOUR CODE HERE
+        query = f"""
+            SELECT full_name
+            FROM {self.name}
+            WHERE employee_id = {id}
+        """
+        return execute_query(query)  # Executes the query and returns a tuple
 
 
     # Below is method with an SQL query
@@ -52,14 +62,14 @@
     # so when it is called, a pandas dataframe
     # is returns containing the execution of
     # the sql query
-    #### YOUR CODE HERE
     def model_data(self, id):
-
-        return f"""
-                    SELECT SUM(positive_events) positive_events
-                         , SUM(negative_events) negative_events
-                    FROM {self.name}
-                    JOIN employee_events
-                        USING({self.name}_id)
-                    WHERE {self.name}.{self.name}_id = {id}
-                """
+        query = f"""
+            SELECT SUM(positive_events) AS positive_events
+                 , SUM(negative_events) AS negative_events
+            FROM {self.name}
+            JOIN employee_events
+                USING(employee_id)
+            WHERE {self.name}.employee_id = {id}
+        """
+        result = execute_query(query)  # Execute the query
+        return pd.DataFrame(result, columns=['positive_events', 'negative_events'])  # Convert to DataFrame
