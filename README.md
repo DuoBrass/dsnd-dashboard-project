@@ -11,6 +11,8 @@ This repository contains starter code for the **Software Engineering for Data Sc
 │   └── report.css
 ├── env
 ├── python-package
+├── ├── dist
+│   │   ├── employee_events-0.0.tar.gz
 │   ├── employee_events
 │   │   ├── __init__.py
 │   │   ├── employee.py
