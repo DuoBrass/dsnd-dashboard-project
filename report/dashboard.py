@@ -80,7 +80,7 @@ class LineChart(MatplotlibViz):
         df = model.event_counts(asset_id)
         
         # Use the pandas .fillna method to fill nulls with 0
-        df = df.fillna(0)E
+        df = df.fillna(0)
         
         # User the pandas .set_index method to set
         # the date column as the index
@@ -309,4 +309,6 @@ async def update_data(r):
     
 
 
-serve()
+if __name__ == "__main__":
+    print("🔧 Starting dashboard server…")
+    serve()
