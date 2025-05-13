@@ -1,5 +1,5 @@
 # Import the QueryBase class
-from python_package.sql_execution import QueryBase, query
+from .sql_execution import QueryBase, query  # Use relative import
 
 # Import dependencies for sql execution
 import pandas as pd
@@ -56,7 +56,7 @@ class Team(QueryBase):
     # the machine learning model.
     # Without editing the query, alter this method
     # so when it is called, a pandas dataframe
-    # is returns containing the execution of
+    # is returned containing the execution of
     # the sql query
 
     def model_data(self, id):

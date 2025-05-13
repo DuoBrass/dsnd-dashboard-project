@@ -1,19 +1,14 @@
-# Import the QueryBase class
-from sql_execution import QueryBase
-
-# Import dependencies needed for sql execution
-# from the `sql_execution` module
-from sql_execution import QueryBase
-
-# Define a subclass of QueryBase
+# Import the QueryBase class from query_base.py
+from .query_base import QueryBase
+# Import the execute_query function from sql_execution.py
+from .sql_execution import execute_query, QueryMixin
+# Define a subclass of QueryMixin and QueryBase
 # called Employee
 import pandas as pd  # To return SQL query results as a DataFrame
-from sql_execution import execute_query  
-    # Set the class attribute `name`
-    # to the string "employee"
-    class Employee(QueryBase):
+# Set the class attribute `name`
+# to the string "employee"
+class Employee(QueryMixin, QueryBase):
     name = "employee"  # Table name for the employee class
-
 
     # Define a method called `names`
     # that receives no arguments
@@ -32,8 +27,7 @@ from sql_execution import execute_query
             SELECT full_name, employee_id
             FROM {self.name}
         """
-        return execute_query(query)  # Executes the query and returns a list of tuples
-    
+        return self.query(query)  # Executes the query via the mixin and returns a list of tuples
 
     # Define a method called `username`
     # that receives an `id` argument
@@ -53,7 +47,6 @@ from sql_execution import execute_query
             WHERE employee_id = {id}
         """
         return execute_query(query)  # Executes the query and returns a tuple
-
 
     # Below is method with an SQL query
     # This SQL query generates the data needed for
